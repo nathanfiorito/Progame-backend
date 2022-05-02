@@ -1,13 +1,12 @@
-import { EntityRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import { ConflictException, InternalServerErrorException } from "@nestjs/common";
-import { AuthCredentialsDTO } from "./dto/auth-credentials.dto";
 import User from '../db/models/user.entity';
 import * as bcrypt from 'bcrypt';
+import { SigninRequest } from "src/utils/requests/signin.request";
 
-@EntityRepository(User)
 export class UserRepository extends Repository<User>{
-    async singUp(authCredentialsDTO: AuthCredentialsDTO): Promise<void>{
-        const {username, password} = authCredentialsDTO;
+    async singUp(request: any): Promise<void>{
+        const {username, password} = request;
 
         const user = new User();
         user.username = username;
@@ -15,16 +14,16 @@ export class UserRepository extends Repository<User>{
         user.password = await this.hashPassword(password, user.salt);
 
         try{
-            await user.save();
+            // await user.save();
         } catch(error){
             if(error.code === '23505') throw new ConflictException('Nome de usuario já existe')
             else throw new InternalServerErrorException();
         }
     }
 
-    async validateUserPassword(authCredentialsDTO: AuthCredentialsDTO): Promise<string>{
-        const {username, password} = authCredentialsDTO;
-        const user = await this.findOne({username})
+    async validateUserPassword(signinRequest: SigninRequest): Promise<string>{
+        const {username, password} = signinRequest;
+        const user = await this.findOne({where:{username}})
         
         if(user && await user.validatePassword(password)){
             return user.username
