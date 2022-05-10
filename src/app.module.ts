@@ -1,11 +1,17 @@
-import { ModulesController } from './modules/modules.controller';
+import { ModulesController } from './controllers/modules.controller';
 import { Module } from '@nestjs/common';
-import { AuthController } from './auth/auth.controller';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
+import { AuthController } from './controllers/auth.controller';
+import { AuthModule } from './modules/auth.module';
+import { UsersModule } from './modules/users.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { options } from './config/typeorm.config';
 
 @Module({
-  imports: [AuthModule, UsersModule],
+  imports: [
+    AuthModule, 
+    UsersModule,
+    TypeOrmModule.forRoot(options),
+  ],
   controllers: [
     ModulesController,
     AuthController],

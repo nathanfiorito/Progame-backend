@@ -16,7 +16,7 @@ export default class User{
     @Column()
     email: string
 
-    @Column()
+    @Column('integer', {default: 0})
     experience: number
 
     @Column()
@@ -24,6 +24,7 @@ export default class User{
 
     async validatePassword(password: string): Promise<Boolean>{
         const hash = await bcrypt.hash(password, this.salt);
+        console.log(hash)
         return hash === this.password;
     }
 }

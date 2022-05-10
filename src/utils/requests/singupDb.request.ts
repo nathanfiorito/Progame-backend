@@ -1,7 +1,6 @@
-import { IsEmail, IsString, Matches, MaxLength, MinLength } from "class-validator";
-import { Match } from "../decorators/match.decorator";
+import { IsEmail, IsNumber, IsString, Matches, MaxLength, MinLength } from "class-validator";
 
-export class SignupRequest {
+export class SignupDbRequest {
     @IsString()
     @MinLength(4)
     @MaxLength(20)
@@ -18,8 +17,9 @@ export class SignupRequest {
     {message: 'senha muita fraca'})
     password: string;
 
-    @MinLength(8)
-    @MaxLength(20)
-    @Match('password')
-    passwordConfirm: string
+    @IsString()
+    salt: string;
+
+    @IsNumber()
+    experience: number;
 }

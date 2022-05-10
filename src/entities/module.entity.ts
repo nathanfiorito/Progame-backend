@@ -2,5 +2,6 @@ import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn
 
 @Entity()
 export default class Module{
-
+    @PrimaryGeneratedColumn()
+    id: number;
 }
