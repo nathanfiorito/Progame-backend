@@ -21,6 +21,7 @@ export class UsersService {
         user.username = signupRequest.username;
         user.salt = await bcrypt.genSalt();
         user.password = await this.hashPassword(signupRequest.password, user.salt);
+        user.isAdmin = false;
         return await this.userRepository.signUp(user);
     }
 

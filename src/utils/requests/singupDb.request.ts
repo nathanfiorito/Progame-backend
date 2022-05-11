@@ -1,4 +1,4 @@
-import { IsEmail, IsNumber, IsString, Matches, MaxLength, MinLength } from "class-validator";
+import { IsBoolean, IsEmail, IsNumber, IsString, Matches, MaxLength, MinLength } from "class-validator";
 
 export class SignupDbRequest {
     @IsString()
@@ -22,4 +22,7 @@ export class SignupDbRequest {
 
     @IsNumber()
     experience: number;
+
+    @IsBoolean()
+    isAdmin: boolean;
 }

@@ -22,6 +22,9 @@ export default class User{
     @Column()
     salt: string
 
+    @Column()
+    isAdmin: boolean
+
     async validatePassword(password: string): Promise<Boolean>{
         const hash = await bcrypt.hash(password, this.salt);
         console.log(hash)
