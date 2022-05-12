@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, Entity, IsNull, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import Question from "./question.entity";
 
 @Entity()
@@ -6,13 +6,13 @@ export default class Module{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column('varchar')
     title: string;
 
-    @Column()
+    @Column({type:'text', nullable: true})
     supportingText: string;
 
-    @Column()
+    @Column({type: 'varchar', nullable: true})
     image: string;
     
     @OneToMany(type => Question, question => question.module)
