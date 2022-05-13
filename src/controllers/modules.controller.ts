@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ModuleService } from 'src/services/module.service';
-import { ModuleCreateRequest } from 'src/utils/requests/module/moduleCreate.request';
+import UpdateModuleDTO from 'src/utils/dto/module/update-module.dto';
+import CreateModuleDTO from 'src/utils/dto/module/create-module.dto';
 
 @Controller('module')
 export class ModulesController { 
@@ -17,8 +18,8 @@ export class ModulesController {
     }
 
     @Post('create')
-    async create(@Body(ValidationPipe) moduleCreateRequest: ModuleCreateRequest){
-        return await this.moduleService.create(moduleCreateRequest);
+    async create(@Body(ValidationPipe) createModuleDTO: CreateModuleDTO){
+        return await this.moduleService.create(createModuleDTO);
     }   
 
     @Delete(':id')
@@ -27,7 +28,8 @@ export class ModulesController {
     }
 
     @Put(':id')
-    async update(@Param('id', ParseIntPipe) id: number){
-        return await this.moduleService.update(id);  
+    @UsePipes(ValidationPipe)
+    async update(@Body() updateModuleDTO: UpdateModuleDTO){
+        return await this.moduleService.update(updateModuleDTO);  
     }
 }

@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/services/users.service';
-import { SigninRequest } from 'src/utils/requests/signin.request';
-import { SignupRequest } from 'src/utils/requests/signup.request';
+import { SignUpDTO } from 'src/utils/dto/auth/signup.dto';
+import { SignInDTO } from 'src/utils/dto/auth/signin.dto';
+import { JwtPayload } from 'src/utils/jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
@@ -10,28 +11,23 @@ export class AuthService {
         private usersService: UsersService,
         private jwtService: JwtService
     ){}
-
-    async validateUser(signinRequest: SigninRequest): Promise<boolean>{
-        const user = await this.usersService.signIn(signinRequest.username);
-        if(user && await user.validatePassword(signinRequest.password)){
-            console.log(true)
-            return true;
+    
+    async signIn(signInDTO: SignInDTO): Promise<any>{
+        const user = await this.usersService.signIn(signInDTO.username);
+        const username = user.username;
+        if(user && await user.validatePassword(signInDTO.password)){
+            const payload: JwtPayload = {username};
+            const accessToken = await this.jwtService.sign(payload);
+            
+            return {accessToken}
         }
-        console.log(false)
-        return false;
+        
+        throw new UnauthorizedException('Dados Incorretos.');
     }
-
-    async signIn(signinRequest: SigninRequest): Promise<any>{
-        if(!await this.validateUser(signinRequest)){
-            return 'usuario não é valido'
-        }
-        console.log(signinRequest);
-        return 'token'
-    }
-
-    async signup(signupRequest: SignupRequest): Promise<any>{
-        if(signupRequest){
-            await this.usersService.signUp(signupRequest);
+    
+    async signup(signUpDTO: SignUpDTO): Promise<any>{
+        if(signUpDTO){
+            await this.usersService.signUp(signUpDTO);
         }
     }
 

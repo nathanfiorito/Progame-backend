@@ -4,7 +4,5 @@ import { EntityRepository, Repository } from "typeorm";
 
 @EntityRepository(Question)
 export class QuestionRepository extends Repository<Question> {
-    async list(module: Module){
-        return await this.find({where: module})
-    }
+
 }

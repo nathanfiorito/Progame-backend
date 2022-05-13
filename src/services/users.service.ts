@@ -2,10 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import User from 'src/entities/user.entity';
 import { UserRepository } from 'src/repositories/user.repository';
-import { SignupRequest } from 'src/utils/requests/signup.request';
-import { SignupDbRequest } from 'src/utils/requests/singupDb.request';
-import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt'
+import { SignUpDTO } from 'src/utils/dto/auth/signup.dto';
 
 @Injectable()
 export class UsersService {
@@ -15,12 +13,12 @@ export class UsersService {
         return await this.userRepository.findOne({where: {username}});
     }
 
-    async signUp(signupRequest: SignupRequest): Promise<User | undefined> {
-        const user = new SignupDbRequest();
-        user.email = signupRequest.email;
-        user.username = signupRequest.username;
+    async signUp(signUpDTO: SignUpDTO): Promise<User | undefined> {
+        const user = new User();
+        user.email = signUpDTO.email;
+        user.username = signUpDTO.username;
         user.salt = await bcrypt.genSalt();
-        user.password = await this.hashPassword(signupRequest.password, user.salt);
+        user.password = await this.hashPassword(signUpDTO.password, user.salt);
         user.isAdmin = false;
         return await this.userRepository.signUp(user);
     }
