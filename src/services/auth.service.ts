@@ -14,9 +14,10 @@ export class AuthService {
     
     async signIn(signInDTO: SignInDTO): Promise<any>{
         const user = await this.usersService.signIn(signInDTO.username);
-        const username = user.username;
+        const {username, id, experience, isAdmin} = user;
+        
         if(user && await user.validatePassword(signInDTO.password)){
-            const payload: JwtPayload = {username};
+            const payload: JwtPayload = {username, id, experience, isAdmin};
             const accessToken = await this.jwtService.sign(payload);
             
             return {accessToken}
@@ -31,12 +32,12 @@ export class AuthService {
         }
     }
 
-    async login(user: any) {
-        const payload = { username: user.username, sub: user.userId };
-        return {
-          access_token: this.jwtService.sign(payload),
-        };
+    async validateUser(username: string, pass: string): Promise<any> {
+      const user = await this.usersService.signIn(username);
+      if (user && user.password === pass) {
+        const { password, ...result } = user;
+        return result;
       }
-
-
+      return null;
+    }
 }

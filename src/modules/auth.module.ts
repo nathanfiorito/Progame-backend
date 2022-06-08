@@ -1,3 +1,4 @@
+import { LocalStrategy } from './../utils/local.strategy';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
@@ -15,15 +16,16 @@ import { JwtStrategy } from '../utils/jwt.strategy';
     PassportModule.register({defaultStrategy: 'jwt'}),
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: {expiresIn: '60s'}
+      signOptions: {expiresIn: '1d'}
     }),
     TypeOrmModule.forFeature([UserRepository]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, LocalStrategy],
   exports: [
     JwtStrategy,
-    PassportModule
+    PassportModule,
+    AuthService
   ]
 })
 export class AuthModule {}

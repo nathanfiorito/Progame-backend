@@ -1,9 +1,13 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiTags } from '@nestjs/swagger';
 import { AnswerService } from 'src/services/answer.service';
 import CreateAnswerDTO from 'src/utils/dto/answer/create-answer.dto';
 import UpdateAnswerDTO from 'src/utils/dto/answer/update-answer.dto';
 
 @Controller('answer')
+@ApiTags('Answer')
+@UseGuards(AuthGuard())
 export class AnswerController {
     constructor(
         private answerService: AnswerService

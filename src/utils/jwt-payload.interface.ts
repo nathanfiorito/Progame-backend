@@ -1,5 +1,6 @@
-import User from "src/entities/user.entity";
-
 export interface JwtPayload{
+    id: number;
     username: string;
+    experience: number;
+    isAdmin: boolean;
 }
