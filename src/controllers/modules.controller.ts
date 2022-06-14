@@ -3,11 +3,12 @@ import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuard
 import { ModuleService } from 'src/services/module.service';
 import UpdateModuleDTO from 'src/utils/dto/module/update-module.dto';
 import CreateModuleDTO from 'src/utils/dto/module/create-module.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('module')
 @ApiTags('Module')
+@ApiBearerAuth()
 @UseGuards(AuthGuard())
 export class ModulesController { 
     constructor(private moduleService: ModuleService){}

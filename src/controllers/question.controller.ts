@@ -1,12 +1,13 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { QuestionService } from 'src/services/question.service';
 import CreateQuestionDTO from 'src/utils/dto/question/create-question.dto';
 import UpdateQuestionDTO from 'src/utils/dto/question/update-question.dto';
 
 @Controller('question')
 @ApiTags('Questions')
+@ApiBearerAuth()
 @UseGuards(AuthGuard())
 export class QuestionController {
     constructor(

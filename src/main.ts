@@ -10,9 +10,10 @@ async function bootstrap() {
     .setDescription('API desenvolvida para ser consumida pelo frontend do meu TCC')
     .setVersion('1.0')
     .addTag('PROGAME')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('swagger', app, document);
 
   await app.listen(process.env.PORT|| 3000);
 }
