@@ -1,3 +1,4 @@
+import { TokenModule } from './modules/token.module';
 import { QuestionModule } from './modules/question.module';
 import { AnswerModule } from './modules/answer.module';
 import { AnswerService } from './services/answer.service';
@@ -15,6 +16,7 @@ import { ModuleModule } from './modules/module.module';
 
 @Module({
   imports: [
+    TokenModule,
     QuestionModule,
     AnswerModule,
     AuthModule,

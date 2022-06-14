@@ -26,4 +26,8 @@ export class UsersService {
     private async hashPassword(password: string, salt: string){
         return bcrypt.hash(password, salt);
     }
+
+    async findOneById(id: number){
+        return this.userRepository.findOne({where:{id}})
+    }
 }

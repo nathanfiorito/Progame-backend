@@ -1,5 +1,5 @@
 import { LocalStrategy } from './../utils/local.strategy';
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -9,10 +9,12 @@ import { UserRepository } from 'src/repositories/user.repository';
 import { AuthService } from '../services/auth.service';
 import { jwtConstants } from '../utils/constants';
 import { JwtStrategy } from '../utils/jwt.strategy';
+import { TokenModule } from './token.module';
 
 @Module({
   imports: [
     UsersModule, 
+    forwardRef(() => TokenModule),
     PassportModule.register({defaultStrategy: 'jwt'}),
     JwtModule.register({
       secret: jwtConstants.secret,
@@ -23,7 +25,7 @@ import { JwtStrategy } from '../utils/jwt.strategy';
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, LocalStrategy],
   exports: [
-    JwtStrategy,
+    JwtModule,
     PassportModule,
     AuthService
   ]

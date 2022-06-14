@@ -15,7 +15,11 @@ export default class Module{
     @Column({type: 'varchar', nullable: true})
     image: string;
     
+    @Column({type: 'varchar', nullable: true})
+    resume: string;
+    
     @OneToMany(type => Question, question => question.module)
     questions: Promise<Question[]>;
+
     
 }
