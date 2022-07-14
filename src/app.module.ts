@@ -1,3 +1,4 @@
+import { CategoryModule } from './modules/category.module';
 import { TokenModule } from './modules/token.module';
 import { QuestionModule } from './modules/question.module';
 import { AnswerModule } from './modules/answer.module';
@@ -13,9 +14,11 @@ import { UsersModule } from './modules/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { options } from './config/typeorm.config';
 import { ModuleModule } from './modules/module.module';
+import { CategoryController } from './controllers/category.controller';
 
 @Module({
   imports: [
+    CategoryModule,
     TokenModule,
     QuestionModule,
     AnswerModule,
@@ -28,7 +31,9 @@ import { ModuleModule } from './modules/module.module';
     AnswerController,
     QuestionController,
     ModulesController,
-    AuthController],
+    AuthController,
+    CategoryController,
+  ],
   providers: [],
 })
 export class AppModule { }

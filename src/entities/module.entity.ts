@@ -1,4 +1,5 @@
-import { Column, Entity, IsNull, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, Entity, IsNull, JoinColumn, JoinTable, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import Category from "./category.entity";
 import Question from "./question.entity";
 
 @Entity()
@@ -20,6 +21,8 @@ export default class Module{
     
     @OneToMany(type => Question, question => question.module)
     questions: Promise<Question[]>;
-
     
+    @ManyToOne(type => Category, category => category.module, {eager: true})
+    @JoinTable()
+    category: Category[];
 }
